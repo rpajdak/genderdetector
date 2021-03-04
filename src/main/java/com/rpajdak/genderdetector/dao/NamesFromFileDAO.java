@@ -16,12 +16,12 @@ public class NamesFromFileDAO implements NamesDAO {
 
     @Override
     public String getAllFemaleNames() {
-        return null;
+        return getAllNamesFromFile(FEMALE_FILE);
     }
 
     @Override
     public String geAllMaleNames() {
-        return null;
+        return getAllNamesFromFile(MALE_FILE);
     }
 
     private String getAllNamesFromFile(String filePath) {
