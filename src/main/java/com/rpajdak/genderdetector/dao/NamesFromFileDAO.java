@@ -24,19 +24,27 @@ public class NamesFromFileDAO implements NamesDAO {
         return getAllNamesFromFile(MALE_FILE);
     }
 
-    private String getAllNamesFromFile(String filePath) {
-        StringBuilder names = new StringBuilder();
+    private Scanner getScannerOfContent(String filePath) {
 
         try {
             inputStream = new FileInputStream(filePath);
             scanner = new Scanner(inputStream);
-            while (scanner.hasNextLine()) {
-                names.append(scanner.nextLine()).append(System.lineSeparator());
-            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return names.toString();
+        return scanner;
     }
+
+    private String getAllNamesFromFile(String filePath) {
+        StringBuilder names = new StringBuilder();
+        scanner = getScannerOfContent(filePath);
+        while (scanner.hasNextLine()) {
+            names.append(scanner.nextLine()).append("\n");
+        }
+
+        return names.toString().trim();
+    }
+
 
 }
