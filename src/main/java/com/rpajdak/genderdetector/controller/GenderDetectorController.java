@@ -1,10 +1,8 @@
 package com.rpajdak.genderdetector.controller;
 
+import com.rpajdak.genderdetector.gender.Gender;
 import com.rpajdak.genderdetector.service.NamesService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -31,5 +29,10 @@ public class GenderDetectorController {
         return namesService.getAllFemaleNames();
     }
 
-
+    @GetMapping(value = "gender/{variant}/{name}")
+    @ResponseStatus(OK)
+    @ResponseBody
+    public Gender getGender(@PathVariable("name") String name, @PathVariable("variant") String variant) {
+        return namesService.getGender(name, variant);
+    }
 }
