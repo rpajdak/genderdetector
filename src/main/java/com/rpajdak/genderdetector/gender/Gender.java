@@ -1,4 +1,4 @@
-package com.rpajdak.genderdetector.controller.gender;
+package com.rpajdak.genderdetector.gender;
 
 public enum Gender {
     MALE, FEMALE, INCONCLUSIVE
