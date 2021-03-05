@@ -1,7 +1,9 @@
 package com.rpajdak.genderdetector.service;
 
 import com.rpajdak.genderdetector.dao.NamesFromFileDAO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -24,7 +26,16 @@ public class NamesServiceTests {
     }
 
 
+    @Test
+    public void should_return_string_of_females_names(){
+        //when:
+        String femaleNames = namesService.getAllFemaleNames();
 
+        //then:
+        Assertions.assertEquals("Ada",femaleNames.split(" ")[0]);
+        Assertions.assertEquals("Adria",femaleNames.split(" ")[4]);
+
+    }
 
 
 
