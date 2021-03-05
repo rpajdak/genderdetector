@@ -19,30 +19,43 @@ public class NamesServiceTests {
     NamesFromFileDAO namesFromFileDAO;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         MockitoAnnotations.initMocks(this);
         given(namesFromFileDAO.getAllFemaleNames()).willReturn(prepareMockFemaleNames());
+        given(namesFromFileDAO.geAllMaleNames()).willReturn(prepareMockMaleNames());
+    }
+
+
+    @Test
+    public void should_return_string_of_female_names() {
+        //when:
+        String femaleNames = namesService.getAllFemaleNames();
+
+        //then:
+        Assertions.assertEquals("Ada", femaleNames.split(" ")[0]);
+        Assertions.assertEquals("Adria", femaleNames.split(" ")[4]);
 
     }
 
 
     @Test
-    public void should_return_string_of_females_names(){
+    public void should_return_string_of_male_names(){
         //when:
-        String femaleNames = namesService.getAllFemaleNames();
+        String maleNames = namesService.getAllMaleNames();
 
         //then:
-        Assertions.assertEquals("Ada",femaleNames.split(" ")[0]);
-        Assertions.assertEquals("Adria",femaleNames.split(" ")[4]);
+        Assertions.assertEquals("Aaron", maleNames.split(" ")[0]);
+        Assertions.assertEquals("Abraham", maleNames.split(" ")[4]);
 
     }
 
 
-
-
-
     private String prepareMockFemaleNames() {
         return "Ada Adamina Adela Adelajda Adria";
+    }
+
+    private String prepareMockMaleNames() {
+        return "Aaron Abdon Abel Abelard Abraham";
     }
 
 
