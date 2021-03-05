@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.Scanner;
 
 @Service
-public class NamesService {
+public class GendersService {
 
     private final NamesDAO NAMESDAO;
 
-    public NamesService(NamesDAO NamesFromFileDAO) {
+    public GendersService(NamesDAO NamesFromFileDAO) {
         this.NAMESDAO = NamesFromFileDAO;
 
     }
