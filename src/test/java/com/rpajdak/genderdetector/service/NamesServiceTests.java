@@ -79,6 +79,19 @@ public class NamesServiceTests {
         Assertions.assertEquals(Gender.MALE, namesService.getGender(maleName, variant));
     }
 
+    @Test
+    public void should_return_inconclusive_when_name_is_inconclusive_and_variant_is_first() {
+        //when:
+        String maleName = "Nowa";
+        String variant = "first";
+
+        //then:
+        Assertions.assertEquals(Gender.INCONCLUSIVE, namesService.getGender(maleName, variant));
+    }
+
+
+
+
 
     private String prepareMockFemaleNames() {
         return "Ada Adamina Adela Adelajda Adria";
