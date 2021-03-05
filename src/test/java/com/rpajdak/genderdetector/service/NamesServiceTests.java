@@ -1,6 +1,7 @@
 package com.rpajdak.genderdetector.service;
 
 import com.rpajdak.genderdetector.dao.NamesFromFileDAO;
+import com.rpajdak.genderdetector.gender.Gender;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 public class NamesServiceTests {
 
@@ -21,8 +27,9 @@ public class NamesServiceTests {
     @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
-        given(namesFromFileDAO.getAllFemaleNames()).willReturn(prepareMockFemaleNames());
-        given(namesFromFileDAO.geAllMaleNames()).willReturn(prepareMockMaleNames());
+        when(namesFromFileDAO.getAllFemaleNames()).thenReturn(prepareMockFemaleNames());
+        when(namesFromFileDAO.geAllMaleNames()).thenReturn(prepareMockMaleNames());
+        when(namesFromFileDAO.getScannerOfFemaleNames()).thenReturn(prepareMockScanner());
     }
 
 
@@ -39,7 +46,7 @@ public class NamesServiceTests {
 
 
     @Test
-    public void should_return_string_of_male_names(){
+    public void should_return_string_of_male_names() {
         //when:
         String maleNames = namesService.getAllMaleNames();
 
@@ -47,6 +54,17 @@ public class NamesServiceTests {
         Assertions.assertEquals("Aaron", maleNames.split(" ")[0]);
         Assertions.assertEquals("Abraham", maleNames.split(" ")[4]);
 
+    }
+
+
+    @Test
+    public void should_return_female_when_name_is_female_and_variant_is_first() {
+        //when:
+        String femaleName = "Anna";
+        String variant = "first";
+
+        //then:
+        Assertions.assertEquals(Gender.FEMALE, namesService.getGender(femaleName, variant));
     }
 
 
@@ -58,5 +76,17 @@ public class NamesServiceTests {
         return "Aaron Abdon Abel Abelard Abraham";
     }
 
+
+    private Scanner prepareMockScanner() {
+        Scanner scanner = null;
+        try {
+            FileInputStream inputStream = new FileInputStream("src/test/java/com/rpajdak/genderdetector/service/testFemaleNames.txt");
+            scanner = new Scanner(inputStream);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return scanner;
+    }
 
 }
