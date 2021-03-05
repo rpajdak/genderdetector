@@ -25,10 +25,11 @@ public class NamesService {
     }
 
     public Gender getGender(String name, String variant) {
+        int firstNameIndex = 1;
         String firstName;
         switch (variant) {
             case "first":
-                firstName = name.split(" ")[0];
+                firstName = name.split(" ")[firstNameIndex];
                 return checkNameForGender(firstName);
             case "all":
                 return checkMoreThenFirstName(name);
