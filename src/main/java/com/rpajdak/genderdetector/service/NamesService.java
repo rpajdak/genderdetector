@@ -25,7 +25,7 @@ public class NamesService {
     }
 
     public Gender getGender(String name, String variant) {
-        int firstNameIndex = 1;
+        int firstNameIndex = 0;
         String firstName;
         switch (variant) {
             case "first":
