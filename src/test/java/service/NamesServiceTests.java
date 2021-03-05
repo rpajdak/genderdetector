@@ -1,7 +1,8 @@
-package com.rpajdak.genderdetector.service;
+package service;
 
 import com.rpajdak.genderdetector.dao.NamesFromFileDAO;
 import com.rpajdak.genderdetector.gender.Gender;
+import com.rpajdak.genderdetector.service.NamesService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 public class NamesServiceTests {
