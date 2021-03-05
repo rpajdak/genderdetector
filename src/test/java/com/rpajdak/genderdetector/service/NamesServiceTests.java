@@ -29,8 +29,8 @@ public class NamesServiceTests {
         MockitoAnnotations.initMocks(this);
         when(namesFromFileDAO.getAllFemaleNames()).thenReturn(prepareMockFemaleNames());
         when(namesFromFileDAO.geAllMaleNames()).thenReturn(prepareMockMaleNames());
-        when(namesFromFileDAO.getScannerOfFemaleNames()).thenReturn(prepareMockScanner("src/test/java/com/rpajdak/genderdetector/service/testFemaleNames.txt"));
-        when(namesFromFileDAO.getScannerOfMalesNames()).thenReturn(prepareMockScanner("src/test/java/com/rpajdak/genderdetector/service/testMaleNames.txt"));
+        when(namesFromFileDAO.getScannerOfFemaleNames()).thenReturn(prepareMockScanner("src/test/java/resources/testFemaleNames.txt"));
+        when(namesFromFileDAO.getScannerOfMalesNames()).thenReturn(prepareMockScanner("src/test/java/resources/testMaleNames.txt"));
     }
 
 
