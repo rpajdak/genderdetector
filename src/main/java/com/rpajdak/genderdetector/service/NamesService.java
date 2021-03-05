@@ -13,6 +13,7 @@ public class NamesService {
 
     public NamesService(NamesDAO NamesFromFileDAO) {
         this.NAMESDAO = NamesFromFileDAO;
+
     }
 
     public String getAllFemaleNames() {
@@ -24,35 +25,59 @@ public class NamesService {
     }
 
     public Gender getGender(String name, String variant) {
-        String[] names = name.split(" ");
-
-        Scanner femaleNamesScanner = NAMESDAO.getScannerOfFemaleNames();
-        Scanner maleNameScanner = NAMESDAO.getScannerOfMalesNames();
-
-        boolean isMale = false;
-        boolean isFemale = false;
-
+        String firstName;
         switch (variant) {
             case "first":
-                String firstName = names[0];
-                while (femaleNamesScanner.hasNextLine()) {
-                    if (femaleNamesScanner.nextLine().equals(firstName)) {
-                        return Gender.FEMALE;
-
-                    } else {
-                        while (maleNameScanner.hasNextLine()) {
-                            if (maleNameScanner.nextLine().equals(firstName)) {
-                                return Gender.MALE;
-                            }
-                        }
-                    }
-                }
-                break;
+                firstName = name.split(" ")[0];
+                return checkNameForGender(firstName);
             case "all":
-                return Gender.INCONCLUSIVE;
+                return checkMoreThenFirstName(name);
         }
         return Gender.INCONCLUSIVE;
     }
 
+    private Gender checkNameForGender(String firstName) {
 
+        Scanner femaleNamesScanner = NAMESDAO.getScannerOfFemaleNames();
+        Scanner maleNameScanner = NAMESDAO.getScannerOfMalesNames();
+
+        while (femaleNamesScanner.hasNextLine()) {
+            if (femaleNamesScanner.nextLine().equals(firstName)) {
+                femaleNamesScanner.close();
+                return Gender.FEMALE;
+            } else {
+                while (maleNameScanner.hasNextLine()) {
+                    if (maleNameScanner.nextLine().equals(firstName)) {
+                        maleNameScanner.close();
+                        return Gender.MALE;
+                    }
+                }
+            }
+        }
+        return Gender.INCONCLUSIVE;
+    }
+
+    private Gender checkMoreThenFirstName(String inputName) {
+
+        int numberOfMales = 0;
+        int numberOfFemales = 0;
+
+        String[] names = inputName.split(" ");
+
+        for (String name : names) {
+            if (checkNameForGender(name).equals(Gender.MALE)) {
+                numberOfMales++;
+            } else if (checkNameForGender(name).equals(Gender.FEMALE)) {
+                numberOfFemales++;
+            }
+        }
+
+
+        if (numberOfMales == numberOfFemales) {
+            return Gender.INCONCLUSIVE;
+        } else {
+            return numberOfMales > numberOfFemales ? Gender.MALE : Gender.FEMALE;
+        }
+
+    }
 }
