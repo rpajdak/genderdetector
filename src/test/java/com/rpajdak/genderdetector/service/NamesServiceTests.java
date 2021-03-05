@@ -29,7 +29,8 @@ public class NamesServiceTests {
         MockitoAnnotations.initMocks(this);
         when(namesFromFileDAO.getAllFemaleNames()).thenReturn(prepareMockFemaleNames());
         when(namesFromFileDAO.geAllMaleNames()).thenReturn(prepareMockMaleNames());
-        when(namesFromFileDAO.getScannerOfFemaleNames()).thenReturn(prepareMockScanner());
+        when(namesFromFileDAO.getScannerOfFemaleNames()).thenReturn(prepareMockScanner("src/test/java/com/rpajdak/genderdetector/service/testFemaleNames.txt"));
+        when(namesFromFileDAO.getScannerOfMalesNames()).thenReturn(prepareMockScanner("src/test/java/com/rpajdak/genderdetector/service/testMaleNames.txt"));
     }
 
 
@@ -68,6 +69,17 @@ public class NamesServiceTests {
     }
 
 
+    @Test
+    public void should_return_male_when_name_is_male_and_variant_is_first() {
+        //when:
+        String maleName = "Konrad";
+        String variant = "first";
+
+        //then:
+        Assertions.assertEquals(Gender.MALE, namesService.getGender(maleName, variant));
+    }
+
+
     private String prepareMockFemaleNames() {
         return "Ada Adamina Adela Adelajda Adria";
     }
@@ -77,10 +89,10 @@ public class NamesServiceTests {
     }
 
 
-    private Scanner prepareMockScanner() {
+    private Scanner prepareMockScanner(String filePath) {
         Scanner scanner = null;
         try {
-            FileInputStream inputStream = new FileInputStream("src/test/java/com/rpajdak/genderdetector/service/testFemaleNames.txt");
+            FileInputStream inputStream = new FileInputStream(filePath);
             scanner = new Scanner(inputStream);
 
         } catch (FileNotFoundException e) {
