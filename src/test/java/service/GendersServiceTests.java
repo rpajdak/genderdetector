@@ -2,7 +2,7 @@ package service;
 
 import com.rpajdak.genderdetector.dao.NamesFromFileDAO;
 import com.rpajdak.genderdetector.gender.Gender;
-import com.rpajdak.genderdetector.service.NamesService;
+import com.rpajdak.genderdetector.service.GendersService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,10 @@ import java.util.Scanner;
 
 import static org.mockito.Mockito.when;
 
-public class NamesServiceTests {
+public class GendersServiceTests {
 
     @InjectMocks
-    NamesService namesService;
+    GendersService gendersService;
 
     @Mock
     NamesFromFileDAO namesFromFileDAO;
@@ -37,7 +37,7 @@ public class NamesServiceTests {
     @Test
     public void should_return_string_of_female_names() {
         //when:
-        String femaleNames = namesService.getAllFemaleNames();
+        String femaleNames = gendersService.getAllFemaleNames();
 
         //then:
         Assertions.assertEquals("Ada", femaleNames.split(" ")[0]);
@@ -49,7 +49,7 @@ public class NamesServiceTests {
     @Test
     public void should_return_string_of_male_names() {
         //when:
-        String maleNames = namesService.getAllMaleNames();
+        String maleNames = gendersService.getAllMaleNames();
 
         //then:
         Assertions.assertEquals("Aaron", maleNames.split(" ")[0]);
@@ -65,7 +65,7 @@ public class NamesServiceTests {
         String variant = "first";
 
         //then:
-        Assertions.assertEquals(Gender.FEMALE, namesService.getGender(femaleName, variant));
+        Assertions.assertEquals(Gender.FEMALE, gendersService.getGender(femaleName, variant));
     }
 
 
@@ -76,7 +76,7 @@ public class NamesServiceTests {
         String variant = "first";
 
         //then:
-        Assertions.assertEquals(Gender.MALE, namesService.getGender(maleName, variant));
+        Assertions.assertEquals(Gender.MALE, gendersService.getGender(maleName, variant));
     }
 
     @Test
@@ -86,7 +86,7 @@ public class NamesServiceTests {
         String variant = "first";
 
         //then:
-        Assertions.assertEquals(Gender.INCONCLUSIVE, namesService.getGender(maleName, variant));
+        Assertions.assertEquals(Gender.INCONCLUSIVE, gendersService.getGender(maleName, variant));
     }
 
 
