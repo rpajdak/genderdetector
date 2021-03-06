@@ -58,5 +58,15 @@ public class GenderDetectorControllerTest {
 
     }
 
+    @Test
+    public void should_return_female_names() throws Exception {
+        //when;
+        when(gendersService.getAllFemaleNames()).thenReturn("Anna, Agata");
+
+        //then:
+        mockMvc.perform(get("/api/v1/names/female"))
+                .andExpect(content().string(containsString("Agata")));
+
+    }
 
 }
