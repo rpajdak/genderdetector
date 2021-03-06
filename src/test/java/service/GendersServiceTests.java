@@ -123,6 +123,17 @@ public class GendersServiceTests {
 
 
 
+    @Test
+    public void should_return_inconclusive_when_given_two_male_names_and_one_female() {
+        //when:
+        String name = "Anna Bartosz Nowak";
+        String variant = "all";
+
+        //then:
+        Assertions.assertEquals(Gender.INCONCLUSIVE, gendersService.getGender(name, variant));
+    }
+
+
     private String prepareMockFemaleNames() {
         return "Ada Adamina Adela Adelajda Adria";
     }
