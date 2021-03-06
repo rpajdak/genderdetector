@@ -3,18 +3,17 @@ package com.rpajdak.genderdetector.dao;
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Scanner;
 
 @Getter
 @Repository
 public class NamesFromFileDAO implements NamesDAO {
 
-    private final String FEMALE_FILE = "src/main/resources/femaleNames.txt";
-    private final String MALE_FILE = "src/main/resources/maleNames.txt";
+    private final String FEMALE_FILE = "/femaleNames.txt";
+    private final String MALE_FILE = "/maleNames.txt";
 
-    private FileInputStream inputStream = null;
+    private InputStream inputStream = null;
     private Scanner scanner = null;
 
     @Override
@@ -38,13 +37,10 @@ public class NamesFromFileDAO implements NamesDAO {
     }
 
     public Scanner getScannerOfContent(String filePath) {
-        try {
-            inputStream = new FileInputStream(filePath);
+
+            inputStream = getClass().getResourceAsStream(filePath);
             scanner = new Scanner(inputStream);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         return scanner;
     }
 
