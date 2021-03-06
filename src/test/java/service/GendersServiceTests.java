@@ -111,7 +111,15 @@ public class GendersServiceTests {
         Assertions.assertEquals(Gender.FEMALE, gendersService.getGender(name, variant));
     }
 
+    @Test
+    public void should_return_male_when_given_two_male_names_and_one_female() {
+        //when:
+        String name = "Bartosz Konrad Mariola";
+        String variant = "all";
 
+        //then:
+        Assertions.assertEquals(Gender.MALE, gendersService.getGender(name, variant));
+    }
 
 
 
