@@ -10,11 +10,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,7 +38,7 @@ public class GenderDetectorControllerTest {
     }
 
     @Test
-    public void when_correct_input_then_return_200() throws Exception {
+    public void should_return_200_when_correct_input() throws Exception {
         //when:
         when(gendersService.getGender("Adela", "first")).thenReturn(Gender.FEMALE);
 
@@ -43,14 +47,16 @@ public class GenderDetectorControllerTest {
                 .andExpect(status().isOk());
     }
 
-
     @Test
-    public void when_correct_input_then_return_404() throws Exception {
-        //when:
-        when(gendersService.getGender("Adela", "first")).thenReturn(Gender.FEMALE);
+    public void should_return_male_names() throws Exception {
+        //when;
+        when(gendersService.getAllMaleNames()).thenReturn("Abelard, Adam");
 
         //then:
-        mockMvc.perform(get("/api/v1/gender/ffirst/Adela"))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/v1/names/male"))
+                .andExpect(content().string(containsString("Adam")));
+
     }
+
+
 }
