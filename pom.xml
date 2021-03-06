@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.rpajdak</groupId>
-    <artifactId>genderdetector</artifactId>
+    <artifactId>Genderdetector</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Gender detecor</name>
+    <name>Gender detector</name>
     <description>Application to detect that name is either male or fame one.</description>
     <properties>
         <java.version>11</java.version>
@@ -30,6 +30,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
