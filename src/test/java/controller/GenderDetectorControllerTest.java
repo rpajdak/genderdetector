@@ -1,11 +1,13 @@
 package controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rpajdak.genderdetector.gender.Gender;
 import com.rpajdak.genderdetector.service.GendersService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -16,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,6 +33,8 @@ public class GenderDetectorControllerTest {
     @Autowired
     private GendersService gendersService;
     private MockMvc mockMvc;
+    private Gender femaleGender = Gender.FEMALE;
+    private Gender maleGender = Gender.MALE;
 
     @Before
     public void setUp() {
@@ -68,5 +72,17 @@ public class GenderDetectorControllerTest {
                 .andExpect(content().string(containsString("Agata")));
 
     }
+
+    @Test
+    public void should_return_female() throws Exception {
+        //when;
+        when(gendersService.getGender("Agata Anna Konrad", "all")).thenReturn(femaleGender);
+
+        //then:
+        mockMvc.perform(get("/api/v1/gender/all/Agata Anna Konrad").contentType(MediaType.ALL)
+                .content(new ObjectMapper().writeValueAsString(femaleGender))).andExpect(content().string(containsString("FEMALE")));
+
+    }
+
 
 }
