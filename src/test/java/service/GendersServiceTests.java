@@ -104,7 +104,7 @@ public class GendersServiceTests {
     @Test
     public void should_return_female_when_given_two_female_names_and_one_male() {
         //when:
-        String name = "Wanda Anna Konrad";
+        String name = "Anna Wanda Konrad";
         String variant = "all";
 
         //then:
