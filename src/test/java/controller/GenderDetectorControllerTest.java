@@ -42,4 +42,15 @@ public class GenderDetectorControllerTest {
         mockMvc.perform(get("/api/v1/gender/first/Adela"))
                 .andExpect(status().isOk());
     }
+
+
+    @Test
+    public void when_correct_input_then_return_404() throws Exception {
+        //when:
+        when(gendersService.getGender("Adela", "first")).thenReturn(Gender.FEMALE);
+
+        //then:
+        mockMvc.perform(get("/api/v1/gender/ffirst/Adela"))
+                .andExpect(status().isOk());
+    }
 }
