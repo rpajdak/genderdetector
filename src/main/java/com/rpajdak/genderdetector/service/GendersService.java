@@ -2,9 +2,15 @@ package com.rpajdak.genderdetector.service;
 
 import com.rpajdak.genderdetector.dao.NamesDAO;
 import com.rpajdak.genderdetector.gender.Gender;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Scanner;
+
+import static com.rpajdak.genderdetector.gender.Gender.FEMALE;
+import static com.rpajdak.genderdetector.gender.Gender.MALE;
 
 @Service
 public class GendersService {
@@ -25,36 +31,36 @@ public class GendersService {
     }
 
     public Gender getGender(String name, String variant) {
-        int firstNameIndex = 0;
-        String firstName;
         switch (variant) {
             case "first":
+                int firstNameIndex = 0;
+                String firstName;
                 firstName = name.split(" ")[firstNameIndex];
                 return checkNameForGender(firstName);
             case "all":
                 return checkMoreThenFirstName(name);
+
         }
         return Gender.INCONCLUSIVE;
     }
 
-    private Gender checkNameForGender(String firstName) {
+    public Gender checkNameForGender(String name) {
 
         Scanner femaleNamesScanner = NAMESDAO.getScannerOfFemaleNames();
         Scanner maleNameScanner = NAMESDAO.getScannerOfMalesNames();
 
         while (femaleNamesScanner.hasNextLine()) {
-            if (femaleNamesScanner.nextLine().equals(firstName)) {
-                femaleNamesScanner.close();
-                return Gender.FEMALE;
-            } else {
-                while (maleNameScanner.hasNextLine()) {
-                    if (maleNameScanner.nextLine().equals(firstName)) {
-                        maleNameScanner.close();
-                        return Gender.MALE;
-                    }
-                }
+            if (femaleNamesScanner.nextLine().equals(name)) {
+                return FEMALE;
             }
         }
+
+        while (maleNameScanner.hasNextLine()) {
+            if (maleNameScanner.nextLine().equals(name)) {
+                return Gender.MALE;
+            }
+        }
+
         return Gender.INCONCLUSIVE;
     }
 
@@ -66,18 +72,19 @@ public class GendersService {
         String[] names = inputName.split(" ");
 
         for (String name : names) {
-            if (checkNameForGender(name).equals(Gender.MALE)) {
-                numberOfMales++;
-            } else if (checkNameForGender(name).equals(Gender.FEMALE)) {
+            Gender gender = checkNameForGender(name);
+            if (gender.equals(FEMALE)) {
                 numberOfFemales++;
+            } else if (gender.equals(MALE)) {
+                numberOfMales++;
             }
-        }
 
+        }
 
         if (numberOfMales == numberOfFemales) {
             return Gender.INCONCLUSIVE;
         } else {
-            return numberOfMales > numberOfFemales ? Gender.MALE : Gender.FEMALE;
+            return numberOfMales > numberOfFemales ? Gender.MALE : FEMALE;
         }
 
     }
