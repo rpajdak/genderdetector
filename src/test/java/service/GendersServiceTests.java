@@ -1,6 +1,6 @@
 package service;
 
-import com.rpajdak.genderdetector.dao.NamesFromFileDAO;
+import com.rpajdak.genderdetector.dao.NamesDAO;
 import com.rpajdak.genderdetector.gender.Gender;
 import com.rpajdak.genderdetector.service.GendersService;
 import org.junit.jupiter.api.Assertions;
@@ -22,15 +22,15 @@ public class GendersServiceTests {
     GendersService gendersService;
 
     @Mock
-    NamesFromFileDAO namesFromFileDAO;
+    NamesDAO NAMESDAO;
 
     @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
-        when(namesFromFileDAO.getAllFemaleNames()).thenReturn(prepareMockFemaleNames());
-        when(namesFromFileDAO.geAllMaleNames()).thenReturn(prepareMockMaleNames());
-        when(namesFromFileDAO.getScannerOfFemaleNames()).thenReturn(prepareMockScanner("src/test/java/resources/testFemaleNames.txt"));
-        when(namesFromFileDAO.getScannerOfMalesNames()).thenReturn(prepareMockScanner("src/test/java/resources/testMaleNames.txt"));
+        when(NAMESDAO.getAllFemaleNames()).thenReturn(prepareMockFemaleNames());
+        when(NAMESDAO.geAllMaleNames()).thenReturn(prepareMockMaleNames());
+        when(NAMESDAO.getScannerOfFemaleNames()).thenReturn(prepareMockScanner("src/test/java/resources/testFemaleNames.txt"));
+        when(NAMESDAO.getScannerOfMalesNames()).thenReturn(prepareMockScanner("src/test/java/resources/testMaleNames.txt"));
     }
 
 
@@ -79,14 +79,36 @@ public class GendersServiceTests {
         Assertions.assertEquals(Gender.MALE, gendersService.getGender(maleName, variant));
     }
 
+
+    @Test
+    public void should_return_male_when_name_is_male_and_variant_is_first2() {
+        //when:
+        String maleName = "Bartosz";
+        String variant = "first";
+
+        //then:
+        Assertions.assertEquals(Gender.MALE, gendersService.getGender(maleName, variant));
+    }
+
     @Test
     public void should_return_inconclusive_when_name_is_inconclusive_and_variant_is_first() {
         //when:
-        String maleName = "Nowa";
+        String maleName = "Nowak";
         String variant = "first";
 
         //then:
         Assertions.assertEquals(Gender.INCONCLUSIVE, gendersService.getGender(maleName, variant));
+    }
+
+
+    @Test
+    public void should_return_female_when_given_two_female_names_and_one_male() {
+        //when:
+        String name = "Wanda Anna Konrad";
+        String variant = "all";
+
+        //then:
+        Assertions.assertEquals(Gender.FEMALE, gendersService.getGender(name, variant));
     }
 
 
