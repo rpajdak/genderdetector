@@ -33,8 +33,8 @@ public class GenderDetectorControllerTest {
     @Autowired
     private GendersService gendersService;
     private MockMvc mockMvc;
-    private Gender femaleGender = Gender.FEMALE;
-    private Gender maleGender = Gender.MALE;
+    private final Gender femaleGender = Gender.FEMALE;
+    private final Gender maleGender = Gender.MALE;
 
     @Before
     public void setUp() {
@@ -83,6 +83,18 @@ public class GenderDetectorControllerTest {
                 .content(new ObjectMapper().writeValueAsString(femaleGender))).andExpect(content().string(containsString("FEMALE")));
 
     }
+
+    @Test
+    public void should_return_male() throws Exception {
+        //when;
+        when(gendersService.getGender("Bartosz Konrad Anna", "all")).thenReturn(maleGender);
+
+        //then:
+        mockMvc.perform(get("/api/v1/gender/all/Bartosz Konrad Anna").contentType(MediaType.ALL)
+                .content(new ObjectMapper().writeValueAsString(maleGender))).andExpect(content().string(containsString("MALE")));
+
+    }
+
 
 
 }
