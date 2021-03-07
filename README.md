@@ -11,6 +11,9 @@
 - to check gender by given name "gender/{variant}/{name}"
     - only first name is checked
         - for example "gender/first/Jan Maria Rokita", the output will be "MALE"
+
+        - for example "gender/first/Anna Maria Rokita", the output will be "FEMALE"
+    
     - all names are checked 
        
         - for example "gender/all/Jan Maria Rokita", the output will be "INCONCLUSIVE" becausethere is one female and one male name and  "Rokita isn't either a male or female name
