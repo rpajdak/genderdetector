@@ -45,7 +45,7 @@ public class GenderDetectorControllerTest {
         when(gendersService.getGender("Adela", "first")).thenReturn(Gender.FEMALE);
 
         //then:
-        mockMvc.perform(get("/api/v1/gender/first/Adela"))
+        mockMvc.perform(get("/gender/first/Adela"))
                 .andExpect(status().isOk());
     }
 
@@ -55,7 +55,7 @@ public class GenderDetectorControllerTest {
         when(gendersService.getAllMaleNames()).thenReturn("Abelard, Adam");
 
         //then:
-        mockMvc.perform(get("/api/v1/names/male"))
+        mockMvc.perform(get("/names/male"))
                 .andExpect(content().string(containsString("Adam")));
 
     }
@@ -66,7 +66,7 @@ public class GenderDetectorControllerTest {
         when(gendersService.getAllFemaleNames()).thenReturn("Anna, Agata");
 
         //then:
-        mockMvc.perform(get("/api/v1/names/female"))
+        mockMvc.perform(get("/names/female"))
                 .andExpect(content().string(containsString("Agata")));
 
     }
@@ -77,7 +77,7 @@ public class GenderDetectorControllerTest {
         when(gendersService.getGender("Agata Anna Konrad", "all")).thenReturn(femaleGender);
 
         //then:
-        mockMvc.perform(get("/api/v1/gender/all/Agata Anna Konrad").contentType(MediaType.ALL)
+        mockMvc.perform(get("/gender/all/Agata Anna Konrad").contentType(MediaType.ALL)
                 .content(new ObjectMapper().writeValueAsString(femaleGender))).andExpect(content().string(containsString("FEMALE")));
 
     }
@@ -88,7 +88,7 @@ public class GenderDetectorControllerTest {
         when(gendersService.getGender("Bartosz Konrad Anna", "all")).thenReturn(maleGender);
 
         //then:
-        mockMvc.perform(get("/api/v1/gender/all/Bartosz Konrad Anna").contentType(MediaType.ALL)
+        mockMvc.perform(get("/gender/all/Bartosz Konrad Anna").contentType(MediaType.ALL)
                 .content(new ObjectMapper().writeValueAsString(maleGender))).andExpect(content().string(containsString("MALE")));
 
     }
